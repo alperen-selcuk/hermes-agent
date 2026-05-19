@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     agent_system_prompt_file: str = "/app/prompts/system.txt"
     max_iterations: int = 10
     log_level: str = "INFO"
+
+    @property
+    def log_level_resolved(self) -> str:
+        return self.log_level if self.log_level.strip() else "INFO"
     secret_key: str = "changeme-use-strong-secret-in-prod"
 
     class Config:

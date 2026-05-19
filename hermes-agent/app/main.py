@@ -15,7 +15,7 @@ from pydantic import BaseModel
 from .agent import HermesAgent
 from .config import settings
 
-logging.basicConfig(level=settings.log_level)
+logging.basicConfig(level=settings.log_level_resolved)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
