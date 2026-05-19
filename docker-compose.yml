@@ -1,0 +1,36 @@
+version: "3.9"
+
+networks:
+  hermes-net:
+    driver: bridge
+
+volumes:
+  openwebui-data:
+
+services:
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    networks:
+      - hermes-net
+    volumes:
+      - openwebui-data:/app/backend/data
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=
+      - WEBUI_NAME=${WEBUI_NAME}
+      - WEBUI_URL=${WEBUI_URL}
+      - ENABLE_SIGNUP=${ENABLE_SIGNUP}
+      - DEFAULT_USER_ROLE=${DEFAULT_USER_ROLE}
+      - ENABLE_COMMUNITY_SHARING=false
+      - ANONYMIZED_TELEMETRY=false
+      - WEBUI_SECRET_KEY=${SECRET_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s

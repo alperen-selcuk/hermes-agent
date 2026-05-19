@@ -20,7 +20,7 @@
 ## Nginx Proxy Manager Kurulumu
 
 1. NPM'de yeni **Proxy Host** ekleyin:
-   - **Domain:** `hermes.asdev.com.tr`
+   - **Domain:** `<your-domain>`
    - **Forward Hostname:** `<sunucu-IP>`
    - **Forward Port:** `3000`
    - **Websockets Support:** ✓ (Open WebUI için şart)
@@ -52,13 +52,13 @@ docker compose logs -f
 
 | Servis | Port | Açıklama |
 |---|---|---|
-| **Open WebUI** | `:3000` → `https://hermes.asdev.com.tr` | Müşteri chat arayüzü |
+| **Open WebUI** | `:3000` → `https://<your-domain>` | Müşteri chat arayüzü |
 
 ---
 
 ## LLM Bağlantısı (Open WebUI Üzerinden)
 
-1. `https://hermes.asdev.com.tr` → ilk admin hesabını oluşturun
+1. `https://<your-domain>` → ilk admin hesabını oluşturun
 2. **Admin Panel → Settings → Connections**
 3. **OpenAI API** bölümüne API key ve base URL girin
    - Örnek: `https://api.openai.com/v1` + OpenAI key
