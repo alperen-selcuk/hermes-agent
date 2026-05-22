@@ -1,15 +1,6 @@
 version: "3.9"
 
-networks:
-  hermes-net:
-    driver: bridge
-
-volumes:
-  openwebui-data:
-  hermes-data:
-
 services:
-
   hermes:
     image: nousresearch/hermes-agent:latest
     container_name: hermes
@@ -17,37 +8,11 @@ services:
     command: gateway run
     ports:
       - "8642:8642"
+      - "9119:9119"
     volumes:
-      - hermes-data:/opt/data
-      - ./hermes/config.yaml:/opt/data/config.yaml:ro
-      - ./hermes/.env:/opt/data/.env:ro
-    networks:
-      - hermes-net
-
-  open-webui:
-    image: ghcr.io/open-webui/open-webui:main
-    container_name: open-webui
-    restart: unless-stopped
-    networks:
-      - hermes-net
-    volumes:
-      - openwebui-data:/app/backend/data
-    ports:
-      - "3000:8080"
+      - ./hermes:/opt/data
     environment:
-      - OLLAMA_BASE_URL=
-      - OPENAI_API_BASE_URL=http://hermes:8642/v1
-      - OPENAI_API_KEY=${SECRET_KEY}
-      - WEBUI_NAME=${WEBUI_NAME}
-      - WEBUI_URL=${WEBUI_URL}
-      - ENABLE_SIGNUP=${ENABLE_SIGNUP}
-      - DEFAULT_USER_ROLE=${DEFAULT_USER_ROLE}
-      - ENABLE_COMMUNITY_SHARING=false
-      - ANONYMIZED_TELEMETRY=false
-      - WEBUI_SECRET_KEY=${SECRET_KEY}
-    depends_on:
-      - hermes
-    healthcheck:
+      - HERMES_DASHBOARD=1
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s

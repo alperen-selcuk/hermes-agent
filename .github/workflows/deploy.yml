@@ -1,0 +1,19 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, hermes]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        env:
+          DEPLOY_DIR: /root/hermes-agent
+        run: |
+          sudo docker compose -f $DEPLOY_DIR/docker-compose.yml up -d --force-recreate
