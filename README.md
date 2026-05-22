@@ -67,6 +67,61 @@ docker compose logs -f
 
 ---
 
+## Model Ekleme / Değiştirme
+
+### 1. Hermes Agent Modelini Değiştirme (`.env`)
+
+Hermes Agent arka planda tek bir model çalıştırır. Hangi modeli kullandığını `.env` ile kontrol edersiniz:
+
+**OpenAI veya OpenAI-uyumlu API (Together, Groq, vb.):**
+```env
+LLM_PROVIDER=openai
+OPENAI_API_KEY=sk-...
+OPENAI_BASE_URL=https://api.openai.com/v1   # veya Groq/Together endpoint'i
+OPENAI_MODEL=gpt-4o                          # istediğiniz model adı
+```
+
+**Harici Ollama sunucusu:**
+```env
+LLM_PROVIDER=ollama
+OPENAI_API_BASE_URL=http://<ollama-sunucu-ip>:11434
+OLLAMA_MODEL=llama3:8b                       # ollama pull ile çektiğiniz model
+```
+
+Değişiklik sonrası yeniden başlatın:
+```bash
+docker compose up -d --force-recreate hermes-agent
+```
+
+---
+
+### 2. Open WebUI'dan Ek Model / Connection Ekleme
+
+Open WebUI, hermes-agent'a ek olarak başka API'lere de doğrudan bağlanabilir:
+
+1. `https://<your-domain>` → Admin hesabıyla giriş yapın
+2. **Sağ üst avatar → Admin Panel → Settings → Connections**
+3. **OpenAI API** satırının sağındaki **`+`** butonuna tıklayın → **Add Connection** modalı açılır
+4. Formu doldurun:
+   - **URL / API Base URL:** `https://api.openai.com/v1` (veya Groq: `https://api.groq.com/openai/v1`, Together, vb.)
+   - **Auth → API Key:** ilgili servisin key'i
+   - **Model IDs:** boş bırakırsanız `/models` endpoint'inden tüm modeller gelir; belirli modeller istiyorsanız `+ Add a model ID` ile ekleyin
+5. **Save** → chat ekranındaki model seçicide yeni modeller görünür
+
+> Her bağlantıya ait modeller chat ekranındaki model seçiciye otomatik eklenir.
+
+---
+
+### 3. Model Listesini Özelleştirme (Workspace)
+
+Belirli modelleri gizlemek veya özel isim/açıklama vermek için:
+
+1. **Admin Panel → Models**
+2. Modelin yanındaki **kalem** ikonuna tıklayın
+3. Görünürlük, isim, açıklama ve sistem prompt'u düzenleyin
+
+---
+
 ## Güncelleme
 
 ```bash

@@ -1,0 +1,6 @@
+# Environment files (contain secrets)
+.env
+hermes/.env
+
+# Docker
+*.log

@@ -1,0 +1,11 @@
+model:
+  provider: openrouter
+  model: anthropic/claude-sonnet-4
+
+terminal:
+  backend: local
+  timeout: 180
+
+display:
+  tool_progress: all
+  streaming: false
